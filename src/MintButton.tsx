@@ -14,7 +14,7 @@ import {
 import { CIVIC_GATEKEEPER_NETWORK } from "./utils";
 
 export const CTAButton = styled(Button)`
-  width: 100%;
+  width: 25%;
   height: 60px;
   margin-top: 10px;
   margin-bottom: 5px;

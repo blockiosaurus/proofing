@@ -30,6 +30,12 @@ import { MintCountdown } from "./MintCountdown";
 import { MintButton } from "./MintButton";
 import { GatewayProvider } from "@civic/solana-gateway-react";
 import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
+// import Carousel from "react-material-ui-carousel";
+
+import * as breadHeadsLogo from './assets/bread-heads-logo.webp';
+// import * as carouselItem1 from "./assets/19.png";
+// import * as carouselItem2 from "./assets/47.png";
+// import * as carouselItem3 from "./assets/95.png";
 
 const ConnectButton = styled(WalletDialogButton)`
   width: 100%;
@@ -52,6 +58,12 @@ export interface HomeProps {
   network: WalletAdapterNetwork;
   error?: string;
 }
+
+// function Item({ item }: { item: { description: string } }) {
+//   return (
+//     <div style={{ width: "100%", height: "100%" }}>{item.description}</div>
+//   );
+// }
 
 const Home = (props: HomeProps) => {
   const [isUserMinting, setIsUserMinting] = useState(false);
@@ -90,6 +102,27 @@ const Home = (props: HomeProps) => {
       signTransaction: wallet.signTransaction,
     } as anchor.Wallet;
   }, [wallet]);
+
+
+  // const responsive = {
+  //   superLargeDesktop: {
+  //     // the naming can be any, depends on you.
+  //     breakpoint: { max: 4000, min: 3000 },
+  //     items: 1
+  //   },
+  //   desktop: {
+  //     breakpoint: { max: 3000, min: 1024 },
+  //     items: 1
+  //   },
+  //   tablet: {
+  //     breakpoint: { max: 1024, min: 464 },
+  //     items: 1
+  //   },
+  //   mobile: {
+  //     breakpoint: { max: 464, min: 0 },
+  //     items: 1
+  //   }
+  // };
 
   const refreshCandyMachineState = useCallback(
     async (commitment: Commitment = "confirmed") => {
@@ -468,6 +501,10 @@ const Home = (props: HomeProps) => {
     setIsActive((candyMachine!.state.isActive = active));
   };
 
+  // useEffect(() => {
+  //   handleCarouselChange(0, 2);
+  // } , []);
+
   useEffect(() => {
     refreshCandyMachineState();
   }, [
@@ -486,185 +523,270 @@ const Home = (props: HomeProps) => {
     })();
   }, [refreshCandyMachineState]);
 
+  // const items = [
+  //   {
+  //     id: 0,
+  //     name: "Random Name #1",
+  //     description: "1 - Probably the most random thing you have ever seen!",
+  //     image: carouselItem1
+  //   },
+  //   {
+  //     id: 1,
+  //     name: "Random Name #2",
+  //     description: "2- Hello World!",
+  //     image: carouselItem2
+  //   },
+  //   {
+  //     id: 2,
+  //     name: "Random Name #3",
+  //     description: "3 - Hello World!",
+  //     image: carouselItem3
+  //   }
+  // ];
+
+  //const [carouselIndex, setCarouselIndex] = useState(0);
+
+  // const handleCarouselChange = (cur: number, prev: number) => {
+  //   setCarouselIndex(cur);
+  //   console.log(cur, prev);
+  // };
+
+  const statePrice = formatNumber.asNumber(
+    candyMachine?.state.price
+  );
+  let actualPrice = NaN;
+  if (statePrice) {
+    actualPrice = statePrice * 10e8;
+  }
+
   return (
-    <Container style={{ marginTop: 100 }}>
-      <Container maxWidth="xs" style={{ position: "relative" }}>
-        <Paper
-          style={{
-            padding: 24,
-            paddingBottom: 10,
-            backgroundColor: "#151A1F",
-            borderRadius: 6,
-          }}
-        >
-          {!wallet.connected ? (
-            <ConnectButton>Connect Wallet</ConnectButton>
-          ) : (
-            <>
-              {candyMachine && (
-                <Grid
-                  container
-                  direction="row"
-                  justifyContent="center"
-                  wrap="nowrap"
-                >
-                  <Grid item xs={3}>
-                    <Typography variant="body2" color="textSecondary">
-                      Remaining
-                    </Typography>
-                    <Typography
-                      variant="h6"
-                      color="textPrimary"
-                      style={{
-                        fontWeight: "bold",
-                      }}
-                    >
-                      {`${itemsRemaining}`}
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={4}>
-                    <Typography variant="body2" color="textSecondary">
-                      {isWhitelistUser && discountPrice
-                        ? "Discount Price"
-                        : "Price"}
-                    </Typography>
-                    <Typography
-                      variant="h6"
-                      color="textPrimary"
-                      style={{ fontWeight: "bold" }}
-                    >
-                      {isWhitelistUser && discountPrice
-                        ? `◎ ${formatNumber.asNumber(discountPrice)}`
-                        : `◎ ${formatNumber.asNumber(
-                            candyMachine.state.price
-                          )}`}
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={5}>
-                    {isActive && endDate && Date.now() < endDate.getTime() ? (
-                      <>
-                        <MintCountdown
-                          key="endSettings"
-                          date={getCountdownDate(candyMachine)}
-                          style={{ justifyContent: "flex-end" }}
-                          status="COMPLETED"
-                          onComplete={toggleMintButton}
-                        />
-                        <Typography
-                          variant="caption"
-                          align="center"
-                          display="block"
-                          style={{ fontWeight: "bold" }}
-                        >
-                          TO END OF MINT
-                        </Typography>
-                      </>
+    <div className="App">
+      <div className="container">
+        <div className="header-container">
+          <div className="header">
+            <img src={breadHeadsLogo.default} className="left" alt="BreadHeads Logo" />
+            {/* <div className="header-navigation">
+              <ul>
+                <li><a href="#theTeam">Meet the team</a></li>
+                <li><a href="#Contract">Contract Info</a></li>
+              </ul>
+            </div> */}
+          </div>
+        </div>
+        <div className="main-container">
+          <div className="right-half">
+            <h1>Proofing Drawer</h1>
+            <p className="sub-text">The proofing drawer provides a place for $CRUMBS holders to mint an NFT that can be used to hold their spot in line for merch orders.</p>
+            {/* <p>Minting begins on Feb 12th with our whitelist lasting until 9 pm eastern. Our sale is then open to everyone immediately following. The max mint for each address during regular sale is a bakers dozen with each mint at 13 $DUST.</p> */}
+            <div>
+              <Container style={{ marginTop: 100 }}>
+                <Container maxWidth="sm" style={{ position: "relative" }}>
+                  <Paper
+                    style={{
+                      padding: 24,
+                      paddingBottom: 10,
+                      backgroundColor: "#151A1F",
+                      borderRadius: 6,
+                    }}
+                  >
+                    {!wallet.connected ? (
+                      <ConnectButton>Connect Wallet</ConnectButton>
                     ) : (
                       <>
-                        <MintCountdown
-                          key="goLive"
-                          date={getCountdownDate(candyMachine)}
-                          style={{ justifyContent: "flex-end" }}
-                          status={
-                            candyMachine?.state?.isSoldOut ||
-                            (endDate && Date.now() > endDate.getTime())
-                              ? "COMPLETED"
-                              : isPresale
-                              ? "PRESALE"
-                              : "LIVE"
-                          }
-                          onComplete={toggleMintButton}
-                        />
-                        {isPresale &&
-                          candyMachine.state.goLiveDate &&
-                          candyMachine.state.goLiveDate.toNumber() >
-                            new Date().getTime() / 1000 && (
-                            <Typography
-                              variant="caption"
-                              align="center"
-                              display="block"
-                              style={{ fontWeight: "bold" }}
+                        {candyMachine && (
+                          <Grid
+                            container
+                            direction="row"
+                            justifyContent="center"
+                            wrap="nowrap"
+                          >
+                            <Grid item xs={3}>
+                              <Typography variant="body2" color="textSecondary">
+                                Remaining
+                              </Typography>
+                              <Typography
+                                variant="h6"
+                                color="textPrimary"
+                                style={{
+                                  fontWeight: "bold",
+                                }}
+                              >
+                                {`${itemsRemaining}`}
+                              </Typography>
+                            </Grid>
+                            <Grid item xs={4}>
+                              <Typography variant="body2" color="textSecondary">
+                                {isWhitelistUser && discountPrice
+                                  ? "Discount Price"
+                                  : "Price"}
+                              </Typography>
+                              <Typography
+                                variant="h6"
+                                color="textPrimary"
+                                style={{ fontWeight: "bold" }}
+                              >
+                                {isWhitelistUser && discountPrice
+                                  ? `${formatNumber.asNumber(discountPrice)}`
+                                  : `${actualPrice}` + " $CRUMBS"}
+                              </Typography>
+                            </Grid>
+                            <Grid item xs={5}>
+                              {isActive && endDate && Date.now() < endDate.getTime() ? (
+                                <>
+                                  <MintCountdown
+                                    key="endSettings"
+                                    date={getCountdownDate(candyMachine)}
+                                    style={{ justifyContent: "flex-end" }}
+                                    status="COMPLETED"
+                                    onComplete={toggleMintButton}
+                                  />
+                                  <Typography
+                                    variant="caption"
+                                    align="center"
+                                    display="block"
+                                    style={{ fontWeight: "bold" }}
+                                  >
+                                    TO END OF MINT
+                                  </Typography>
+                                </>
+                              ) : (
+                                <>
+                                  <MintCountdown
+                                    key="goLive"
+                                    date={getCountdownDate(candyMachine)}
+                                    style={{ justifyContent: "flex-end" }}
+                                    status={
+                                      candyMachine?.state?.isSoldOut ||
+                                        (endDate && Date.now() > endDate.getTime())
+                                        ? "COMPLETED"
+                                        : isPresale
+                                          ? "PRESALE"
+                                          : "LIVE"
+                                    }
+                                    onComplete={toggleMintButton}
+                                  />
+                                  {isPresale &&
+                                    candyMachine.state.goLiveDate &&
+                                    candyMachine.state.goLiveDate.toNumber() >
+                                    new Date().getTime() / 1000 && (
+                                      <Typography
+                                        variant="caption"
+                                        align="center"
+                                        display="block"
+                                        style={{ fontWeight: "bold" }}
+                                      >
+                                        UNTIL PUBLIC MINT
+                                      </Typography>
+                                    )}
+                                </>
+                              )}
+                            </Grid>
+                          </Grid>
+                        )}
+                        <MintContainer>
+                          {candyMachine?.state.isActive &&
+                            candyMachine?.state.gatekeeper &&
+                            wallet.publicKey &&
+                            wallet.signTransaction ? (
+                            <GatewayProvider
+                              wallet={{
+                                publicKey:
+                                  wallet.publicKey ||
+                                  new PublicKey(CANDY_MACHINE_PROGRAM),
+                                //@ts-ignore
+                                signTransaction: wallet.signTransaction,
+                              }}
+                              gatekeeperNetwork={
+                                candyMachine?.state?.gatekeeper?.gatekeeperNetwork
+                              }
+                              clusterUrl={rpcUrl}
+                              cluster={cluster}
+                              options={{ autoShowModal: false }}
                             >
-                              UNTIL PUBLIC MINT
-                            </Typography>
+                              <MintButton
+                                candyMachine={candyMachine}
+                                isMinting={isUserMinting}
+                                setIsMinting={(val) => setIsUserMinting(val)}
+                                onMint={onMint}
+                                isActive={
+                                  isActive ||
+                                  (isPresale && isWhitelistUser && isValidBalance)
+                                }
+                              />
+                            </GatewayProvider>
+                          ) : (
+                            <MintButton
+                              candyMachine={candyMachine}
+                              isMinting={isUserMinting}
+                              setIsMinting={(val) => setIsUserMinting(val)}
+                              onMint={onMint}
+                              isActive={
+                                isActive ||
+                                (isPresale && isWhitelistUser && isValidBalance)
+                              }
+                            />
                           )}
+                        </MintContainer>
                       </>
                     )}
-                  </Grid>
-                </Grid>
-              )}
-              <MintContainer>
-                {candyMachine?.state.isActive &&
-                candyMachine?.state.gatekeeper &&
-                wallet.publicKey &&
-                wallet.signTransaction ? (
-                  <GatewayProvider
-                    wallet={{
-                      publicKey:
-                        wallet.publicKey ||
-                        new PublicKey(CANDY_MACHINE_PROGRAM),
-                      //@ts-ignore
-                      signTransaction: wallet.signTransaction,
-                    }}
-                    gatekeeperNetwork={
-                      candyMachine?.state?.gatekeeper?.gatekeeperNetwork
-                    }
-                    clusterUrl={rpcUrl}
-                    cluster={cluster}
-                    options={{ autoShowModal: false }}
-                  >
-                    <MintButton
-                      candyMachine={candyMachine}
-                      isMinting={isUserMinting}
-                      setIsMinting={(val) => setIsUserMinting(val)}
-                      onMint={onMint}
-                      isActive={
-                        isActive ||
-                        (isPresale && isWhitelistUser && isValidBalance)
-                      }
-                    />
-                  </GatewayProvider>
-                ) : (
-                  <MintButton
-                    candyMachine={candyMachine}
-                    isMinting={isUserMinting}
-                    setIsMinting={(val) => setIsUserMinting(val)}
-                    onMint={onMint}
-                    isActive={
-                      isActive ||
-                      (isPresale && isWhitelistUser && isValidBalance)
-                    }
-                  />
-                )}
-              </MintContainer>
-            </>
-          )}
-          <Typography
-            variant="caption"
-            align="center"
-            display="block"
-            style={{ marginTop: 7, color: "grey" }}
-          >
-            Powered by METAPLEX
-          </Typography>
-        </Paper>
-      </Container>
+                    <Typography
+                      variant="caption"
+                      align="center"
+                      display="block"
+                      style={{ marginTop: 7, color: "grey" }}
+                    >
+                      Powered by METAPLEX
+                    </Typography>
+                  </Paper>
+                </Container>
 
-      <Snackbar
-        open={alertState.open}
-        autoHideDuration={
-          alertState.hideDuration === undefined ? 6000 : alertState.hideDuration
-        }
-        onClose={() => setAlertState({ ...alertState, open: false })}
-      >
-        <Alert
-          onClose={() => setAlertState({ ...alertState, open: false })}
-          severity={alertState.severity}
-        >
-          {alertState.message}
-        </Alert>
-      </Snackbar>
-    </Container>
+                <Snackbar
+                  open={alertState.open}
+                  autoHideDuration={
+                    alertState.hideDuration === undefined ? 6000 : alertState.hideDuration
+                  }
+                  onClose={() => setAlertState({ ...alertState, open: false })}
+                >
+                  <Alert
+                    onClose={() => setAlertState({ ...alertState, open: false })}
+                    severity={alertState.severity}
+                  >
+                    {alertState.message}
+                  </Alert>
+                </Snackbar>
+              </Container>
+            </div>
+          </div>
+          <div className="left-half">
+            <img src="https://r6365vpn46fs4irrj3obc4flvdfjif65jdrvp46eq4a6vr4uzpaa.arweave.net/j7fu1e3niy4iMU7cEXCrqMqUF91I41fzxIcB6seUy8A?ext=gif" alt="preorder" />
+            {/* <Carousel
+              index={carouselIndex}
+              onChange={handleCarouselChange}
+              interval={4000}
+              animation="slide"
+              indicators={false}
+              stopAutoPlayOnHover
+              swipe
+              className="my-carousel"
+            >
+              {items.map((item, i) => (
+                // <Item key={i} item={item} />
+                <img key={i} src={item.image.default} style={{ width: '100%', height: '100%'}}/>
+              ))}
+            </Carousel> */}
+            {/* {items.map((item, i) => (
+              <button
+                key={i}
+                onClick={() => setCarouselIndex(i)}
+                style={{ background: i === carouselIndex ? "#ccc" : "#fff" }}
+              >
+                {i}
+              </button>
+            ))} */}
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 
@@ -682,8 +804,8 @@ const getCountdownDate = (
     candyMachine.state.goLiveDate
       ? candyMachine.state.goLiveDate
       : candyMachine.state.isPresale
-      ? new anchor.BN(new Date().getTime() / 1000)
-      : undefined
+        ? new anchor.BN(new Date().getTime() / 1000)
+        : undefined
   );
 };
 
