@@ -758,7 +758,7 @@ const Home = (props: HomeProps) => {
             </div>
           </div>
           <div className="left-half">
-            <img src="https://r6365vpn46fs4irrj3obc4flvdfjif65jdrvp46eq4a6vr4uzpaa.arweave.net/j7fu1e3niy4iMU7cEXCrqMqUF91I41fzxIcB6seUy8A?ext=gif" alt="preorder" />
+            <img src="https://d67a5iwfkqmq3kyqsjeoqpvpfmqzla5h7xnc7ociolt3favg6sca.arweave.net/H74OosVUGQ2rEJJI6D6vKyGVg6f92i-4SHLnsoKm9IQ?ext=gif" alt="preorder" />
             {/* <Carousel
               index={carouselIndex}
               onChange={handleCarouselChange}
